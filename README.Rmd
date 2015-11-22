@@ -1,0 +1,16 @@
+---
+title: "Developing Data Product - Car Evaluator"
+author: "Alexander Lou"
+date: "22 November 2015"
+output: html_document
+fig_caption: yes
+---
+
+## Developing Data Product - Car Evaluator
+
+This product is using Shiny to develop a Car Evaluator basesd on data set of Car Evaluation Dataprovided by Machine Learning Repository from UCI (http://archive.ics.uci.edu/ml/datasets/Car+Evaluation) to develop a model to evaluate the car value. This project contains two part:
+
+1. The summary presentation of the apps: https://rpubs.com/Alex147/127029
+2. The shiny apps of Car Evaluator: https://alexanderlou.shinyapps.io/Car_Class
+
+The source code is avaiable in the github

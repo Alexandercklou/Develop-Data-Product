@@ -1,0 +1,87 @@
+Developing Data Product - Car Evaluator
+========================================================
+author: Alexander Lou
+date: 20 Nov 2015
+
+
+Project Purpose
+========================================================
+This product is based on the data set of Car Evaluation Data set provided by Machine Learning Repository from UCI (http://archive.ics.uci.edu/ml/datasets/Car+Evaluation) to develop a model to evaluate the car value based on the following criteria:
+
+- Buying Price
+- Maint Price
+- No. of Doors
+- Person Capacity
+- Size of Luggage Boot
+- Estimated Safety of the Car
+
+The app is avaiable in here: (https://alexanderlou.shinyapps.io/Car_Class)
+
+Data Set
+========================================================
+
+The data set is provided by Machine Learning Repository from UCI and the below is how the data set looks like
+
+```{r,echo=FALSE,cache=TRUE}
+car <- read.csv("http://archive.ics.uci.edu/ml/machine-learning-databases/car/car.data",header=FALSE)
+names(car)<-c("buying","maint","doors","seat","lug_boot","safety","carclass")
+head(car,1)
+```
+
+Below is the Attribute Information of the of dataset
+
+- buying: vhigh, high, med, low. 
+- maint: vhigh, high, med, low. 
+- doors: 2, 3, 4, 5more. 
+- persons: 2, 4, more. 
+- lug_boot: small, med, big. 
+- safety: low, med, high. 
+
+
+Model Development
+========================================================
+
+Decision Tree will be used for developing the model as below:
+
+```{r, echo=FALSE, cache=TRUE}
+library(caret)
+library(randomForest)
+library(rpart)
+library(rpart.plot)
+
+car <- read.csv("http://archive.ics.uci.edu/ml/machine-learning-databases/car/car.data", header=FALSE)
+names(car)<-c("buying","maint","doors","seat","lug_boot","safety","carclass")
+set.seed(820910)
+inTrain<-createDataPartition(y=car$carclass,p=0.9,list=FALSE)
+Train<-car[inTrain,]
+Testing<-car[-inTrain,]
+traincontrol <- trainControl(method = "cv", number = 10,classProbs = TRUE)
+DecisionTree<-rpart(carclass ~ ., data=Train, method="class")
+prp(DecisionTree)
+```
+
+Model Accurancy
+========================================================
+
+Below is the accurancy of the model for the testing set.
+
+```{r,echo=FALSE}
+library(caret)
+library(randomForest)
+library(rpart)
+library(rpart.plot)
+
+
+car <- read.csv("http://archive.ics.uci.edu/ml/machine-learning-databases/car/car.data", header=FALSE)
+names(car)<-c("buying","maint","doors","seat","lug_boot","safety","carclass")
+set.seed(820910)
+inTrain<-createDataPartition(y=car$carclass,p=0.9,list=FALSE)
+Train<-car[inTrain,]
+Testing<-car[-inTrain,]
+traincontrol <- trainControl(method = "cv", number = 10,classProbs = TRUE)
+DecisionTree<-rpart(carclass ~ ., data=Train, method="class")
+TestingResult<-predict(DecisionTree,newdata=Testing,type="class")
+confusionMatrix(TestingResult,Testing$carclass)$table
+confusionMatrix(TestingResult,Testing$carclass)$overall['Accuracy']
+```
+
